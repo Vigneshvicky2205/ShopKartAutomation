@@ -5,21 +5,24 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.CartPage;
 import pages.ProductDetailsPage;
-import pages.ProductsPage;
 
 public class AddToCartTest extends BaseTest {
 
     @Test
     public void addToCartShouldShowItemInCart() {
-        ProductsPage products = new ProductsPage(driver, wait);
-        products.openProducts();
 
-        ProductDetailsPage details = new ProductDetailsPage(driver, wait);
-        details.openFirstProductDetails();
-        details.addToCart();
-        details.clickViewCartFromModal();
+        ProductDetailsPage pdp = new ProductDetailsPage(driver, wait);
+
+        // ✅ CI-stable: open product details directly (avoids flaky listing click)
+        pdp.openProductDetailsById(1);
+
+        pdp.addToCart();
+        pdp.clickViewCartFromModal();
 
         CartPage cart = new CartPage(driver, wait);
+
+        // ✅ Your CartPage supports this
+        Assert.assertTrue(cart.hasItems(), "Cart has no items after Add To Cart");
         Assert.assertTrue(cart.isCartTableVisible(), "Cart table not visible");
     }
 }
