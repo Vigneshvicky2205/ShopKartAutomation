@@ -31,7 +31,17 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
+
+        // ✅ CI / GitHub Actions headless support
+        String headless = System.getProperty("headless", "false");
+        if ("true".equalsIgnoreCase(headless)) {
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--window-size=1920,1080");
+        } else {
+            options.addArguments("--start-maximized");
+        }
 
         driver = new ChromeDriver(options);
         tlDriver.set(driver);
@@ -40,8 +50,8 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-        // 3) Open base URL from config
-        String baseUrl = ConfigReader.get("baseUrl");
+        // 3) Open base URL from config / system property
+        String baseUrl = System.getProperty("baseUrl", ConfigReader.get("baseUrl"));
         driver.get(baseUrl);
     }
 
