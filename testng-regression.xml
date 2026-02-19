@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="RegressionSuite">
+    <listeners>
+        <listener class-name="utils.ExtentTestNGListener"/>
+    </listeners>
+
+    <test name="RegressionTests">
+        <classes>
+            <class name="tests.EndToEndOrderTest"/>
+            <class name="tests.NegativeLoginTest"/>
+            <class name="tests.CartQuantityUpdateTest"/>
+            <class name="tests.RemoveItemTest"/>
+        </classes>
+    </test>
+</suite>
+
