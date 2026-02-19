@@ -28,4 +28,5 @@ public class LoginTest extends BaseTest {
         System.out.println("Logged In Text: " + home.getLoggedInAsText());
 
     }
+
 }
